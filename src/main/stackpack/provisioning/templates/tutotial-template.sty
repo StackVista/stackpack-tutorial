@@ -1,0 +1,110 @@
+nodes:
+  - _type: IdExtractorFunction
+    description: A generic component id extractor function for topology elements.
+    groovyScript: "{{ include "./scripts/Tutorial component id extractor.groovy" }}"
+    id: -9
+    identifier: urn:stackpack:tutorial:shared:id-extractor-function:tutorial-component-id-extractor
+    name: Tutorial component id extractor
+    parameters:
+      - _type: Parameter
+        id: -10
+        multiple: false
+        name: topologyElement
+        required: true
+        system: true
+        type: STRUCT_TYPE
+  - _type: IdExtractorFunction
+    description: A generic relation id extractor function for topology elements.
+    groovyScript: "{{ include "./scripts/Tutorial relation id extractor.groovy" }}"
+    id: -11
+    identifier: urn:stackpack:tutorial:shared:id-extractor-function:tutorial-relation-id-extractor
+    name: Auto sync relation id extractor
+    parameters:
+      - _type: Parameter
+        id: -12
+        multiple: false
+        name: topologyElement
+        required: true
+        system: true
+        type: STRUCT_TYPE
+  - _type: DataSource
+    config:
+      _type: Sts.StsTopologyDataSourceConfig
+      autoExpireElements: false
+      expireElementsAfter: 172800000
+      id: -2
+      integrationType: tutorial
+      supportedDataTypes:
+        - TOPOLOGY_ELEMENTS
+      supportedWindowingMethods: []
+      topic: '{{topicName}}'
+    description: DataSource that was generated for tutorial tutorial://tutorial-1
+    extTopology:
+      _type: ExtTopology
+      dataSource: -1
+      id: -3
+      settings:
+        _type: TopologySyncSettings
+        cleanupExpiredElements: false
+        cleanupInterval: 3600000
+        id: -4
+        maxBatchSize: 200
+        maxBatchesPerSecond: 5
+    id: -1
+    identifier: urn:stackpack:tutorial:shared:data-source:datasource-tutorial-tutorial://tutorial-1
+    name: DataSource tutorial tutorial://tutorial-1
+    pluginId: Sts
+    uiRequestTimeout: 15000
+  - _type: Sync
+    componentActions: []
+    defaultComponentAction:
+      _type: SyncActionCreateComponent
+      id: -15
+      mergeStrategy: MergePreferTheirs
+      templateFunction: -5
+      type: default_component_mapping
+    defaultRelationAction:
+      _type: SyncActionCreateRelation
+      id: -16
+      mergeStrategy: MergePreferTheirs
+      templateFunction: -7
+      type: default_relation_mapping
+    extTopology: -3
+    id: -13
+    identifier: urn:stackpack:tutorial:shared:sync:synchronisation-tutorial-tutorial://tutorial-1
+    name: Synchronization tutorial tutorial://tutorial-1
+    relationActions: []
+    topologyDataQuery:
+      _type: Sts.StsTopologyElementsQuery
+      componentIdExtractorFunction: -9
+      consumerOffsetStartAtEarliest: false
+      id: -14
+      relationIdExtractorFunction: -11
+  - _type: ComponentTemplateFunction
+    handlebarsTemplate: "{{ include "./templates/tutorial-component-template.json.handlebars" }}"
+    id: -5
+    identifier: urn:stackpack:tutorial:shared:component-template-function:tutorial-tutorial://tutorial-1-component-template
+    name: tutorial-tutorial://tutorial-1-component-template
+    parameters:
+      - _type: Parameter
+        id: -6
+        multiple: false
+        name: element
+        required: true
+        system: false
+        type: STRUCT_TYPE
+  - _type: RelationTemplateFunction
+    handlebarsTemplate: "{{ include "./templates/tutorial-relation-template.json.handlebars" }}"
+    id: -7
+    identifier: urn:stackpack:tutorial:shared:relation-template-function:tutorial-tutorial://tutorial-1-relation-template
+    name: tutorial-tutorial://tutorial-1-relation-template
+    parameters:
+      - _type: Parameter
+        id: -8
+        multiple: false
+        name: element
+        required: true
+        system: false
+        type: STRUCT_TYPE
+timestamp: "2019-11-27T15:29:42Z"
+version: "0.1"
