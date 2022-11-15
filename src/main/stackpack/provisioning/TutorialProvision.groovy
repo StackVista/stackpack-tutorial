@@ -21,7 +21,7 @@ class TutorialProvision extends ProvisioningScript {
     ]
     templateArguments.putAll(config)
 
-    return context().stackPack().importSnapshot("templates/tutorial-template.stj", templateArguments)
+    return context().stackPack().importSnapshot("templates/tutorial-template.sty", templateArguments)
   }
 
   @Override
